@@ -33,7 +33,7 @@ func printResponse() {
 	fmt.Println(string(body))
 }
 
-// 3.Copiar el contenido de un archivo a otro vacio
+// 3.Copiar el contenido de un archivo a otro vacío
 
 func copyContentFromFileToEmptyFile() {
 	originalFile, err := os.Open("original.txt")

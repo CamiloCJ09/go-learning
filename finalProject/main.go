@@ -1,13 +1,20 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/CamiloCJ09/go-learning/finalProject/model"
-	"github.com/CamiloCJ09/go-learning/finalProject/service"
 	"github.com/CamiloCJ09/go-learning/finalProject/utils"
 )
+
 func main() {
-	
-	
+	readAndStoreData()
+
+}
+
+func readAndStoreData() {
+	data, err := utils.FromCSVtoTickets()
+	fmt.Println(data, err)
 }
 
 func mockedData() {
@@ -31,4 +38,4 @@ func mockedData() {
 		Price:       1200,
 	}
 
-	}
+}
