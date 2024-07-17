@@ -4,6 +4,8 @@ import (
 	"log"
 	"net/http"
 	"web/cmd/server/handler"
+	"web/cmd/server/middleware"
+	"web/config"
 	"web/internal/product"
 
 	"github.com/go-chi/chi/v5"
@@ -12,6 +14,8 @@ import (
 func main() {
 
 	r := startServer()
+
+	config.LoadConfig()
 
 	log.Println("Starting server on :2000...")
 	err := http.ListenAndServe(":2000", r)
@@ -23,8 +27,8 @@ func main() {
 func startServer() *chi.Mux {
 	chiRouter := chi.NewRouter()
 
-	chiRouter.Get("/ping", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("pong"))
+	chiRouter.Get("/health", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("Ready for requests!"))
 	})
 
 	prodRepo, err := product.NewProductRepository("products.json")
@@ -39,6 +43,10 @@ func startServer() *chi.Mux {
 	chiRouter.Route("/api/v1", func(apiRouter chi.Router) {
 
 		apiRouter.Route("/products", func(prodRouter chi.Router) {
+
+			prodRouter.Use(middleware.AuthMiddleware)
+
+			prodRouter.Use(middleware.LogMiddleware)
 
 			prodRouter.Get("/", prodHandler.GetAllProducts)
 
