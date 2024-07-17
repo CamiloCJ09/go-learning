@@ -23,7 +23,7 @@ func NewProductHandler(service product.ProductService) *ProductHandler {
 func (ph *ProductHandler) GetAllProducts(w http.ResponseWriter, r *http.Request) {
 	products, err := ph.service.GetAllProducts()
 	if err != nil {
-		http.Error(w, http.StatusText(500), 500)
+		http.Error(w, err.Error(), 500)
 		return
 	}
 
@@ -37,13 +37,13 @@ func (ph *ProductHandler) GetProductByID(w http.ResponseWriter, r *http.Request)
 	idStr := chi.URLParam(r, "id")
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
-		http.Error(w, http.StatusText(400), 400)
+		http.Error(w, err.Error(), 400)
 		return
 	}
 
 	product, err := ph.service.GetProductByID(id)
 	if err != nil {
-		http.Error(w, http.StatusText(404), 404)
+		http.Error(w, err.Error(), 404)
 		return
 	}
 
@@ -67,7 +67,7 @@ func (ph *ProductHandler) SearchProduct(w http.ResponseWriter, r *http.Request) 
 
 	products, err := ph.service.SearchProduct(priceGt)
 	if err != nil {
-		http.Error(w, http.StatusText(500), 500)
+		http.Error(w, err.Error(), 500)
 		return
 	}
 
@@ -85,7 +85,7 @@ func (ph *ProductHandler) CreateProduct(w http.ResponseWriter, r *http.Request) 
 
 	err := ph.service.CreateProduct(newProduct)
 	if err != nil {
-		http.Error(w, http.StatusText(500), 500)
+		http.Error(w, err.Error(), 500)
 		return
 	}
 
@@ -110,7 +110,7 @@ func (ph *ProductHandler) UpdateProduct(w http.ResponseWriter, r *http.Request) 
 
 	err = ph.service.UpdateProduct(id, updatedProduct)
 	if err != nil {
-		http.Error(w, http.StatusText(500), 500)
+		http.Error(w, err.Error(), 500)
 		return
 	}
 
@@ -134,7 +134,7 @@ func (ph *ProductHandler) PatchProduct(w http.ResponseWriter, r *http.Request) {
 
 	err = ph.service.PatchProduct(id, updatedProduct)
 	if err != nil {
-		http.Error(w, http.StatusText(500), 500)
+		http.Error(w, err.Error(), 500)
 		return
 	}
 
@@ -151,7 +151,7 @@ func (ph *ProductHandler) DeleteProduct(w http.ResponseWriter, r *http.Request) 
 
 	err = ph.service.DeleteProduct(id)
 	if err != nil {
-		http.Error(w, http.StatusText(500), 500)
+		http.Error(w, err.Error(), 500)
 		return
 	}
 
