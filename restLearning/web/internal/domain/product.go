@@ -18,3 +18,8 @@ type ProductRequestDto struct {
 	Expiration  *string  `json:"expiration,omitempty"`
 	Price       *float64 `json:"price,omitempty"`
 }
+
+type ConsumerPrice struct {
+	Products   []Product `json:"products"`
+	TotalPrice float64   `json:"total_price"`
+}

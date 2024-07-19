@@ -23,6 +23,7 @@ type ProductStorage interface {
 	UpdateProduct(id int, product domain.Product) error
 	PatchProduct(id int, product domain.ProductRequestDto) error
 	DeleteProduct(id int) error
+	GetGroupOfProductsByIds(ids []int) ([]domain.Product, error)
 }
 
 func NewProductStorage(fileName string) ProductStorage {
@@ -53,6 +54,24 @@ func (ps *productStorage) GetProductByID(id int) (domain.Product, error) {
 	}
 
 	return domain.Product{}, internalErrors.ErrProductNotFound
+}
+
+func (ps *productStorage) GetGroupOfProductsByIds(ids []int) ([]domain.Product, error) {
+	products, err := ps.readProducts()
+	if err != nil {
+		return nil, err
+	}
+
+	var filteredProducts []domain.Product
+	for _, id := range ids {
+		for _, product := range products {
+			if product.ID == id {
+				filteredProducts = append(filteredProducts, product)
+			}
+		}
+	}
+
+	return filteredProducts, nil
 }
 
 func (ps *productStorage) SearchProduct(priceGt float64) ([]domain.Product, error) {

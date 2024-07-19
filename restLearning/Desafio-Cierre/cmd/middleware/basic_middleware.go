@@ -1,9 +1,9 @@
 package middleware
 
 import (
+	"app/cmd/config"
 	"log"
 	"net/http"
-	"web/config"
 )
 
 const (
@@ -36,6 +36,6 @@ func LogMiddleware(next http.Handler) http.Handler {
 
 		log.Println("Request received ", r.Method, r.URL.Path, r.RemoteAddr)
 		next.ServeHTTP(w, r)
-		log.Println("Request completed", r.Method, r.URL.Path, r.RemoteAddr, r.Response)
+		log.Println("Request completed", r.Method, r.URL.Path, r.RemoteAddr)
 	})
 }

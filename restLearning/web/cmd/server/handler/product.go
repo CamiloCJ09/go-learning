@@ -2,10 +2,12 @@ package handler
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strconv"
 	"web/internal/domain"
 	"web/internal/product"
+	"web/internal/utils"
 
 	"github.com/go-chi/chi/v5"
 )
@@ -66,6 +68,25 @@ func (ph *ProductHandler) SearchProduct(w http.ResponseWriter, r *http.Request) 
 	}
 
 	products, err := ph.service.SearchProduct(priceGt)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(products)
+}
+
+func (ph *ProductHandler) GetConsumerPrice(w http.ResponseWriter, r *http.Request) {
+	productIdsStr := r.URL.Query().Get("productIds")
+	productIdsInt, err := utils.ParseStringToInt(productIdsStr)
+	if err != nil {
+		http.Error(w, fmt.Sprintf("error parsing productIds: %v", err), 400)
+		return
+	}
+
+	products, err := ph.service.GetConsumerPrice(productIdsInt)
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 		return

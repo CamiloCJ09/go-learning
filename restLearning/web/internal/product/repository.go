@@ -12,6 +12,7 @@ type ProductRepository interface {
 	UpdateProduct(id int, product domain.Product) error
 	PatchProduct(id int, product domain.ProductRequestDto) error
 	DeleteProduct(id int) error
+	GetGroupOfProductsByIds(ids []int) ([]domain.Product, error)
 }
 
 // productRepository is a concrete implementation of ProductRepository
@@ -34,6 +35,11 @@ func (pr *productRepository) GetAllProducts() ([]domain.Product, error) {
 func (pr *productRepository) GetProductByID(id int) (domain.Product, error) {
 
 	return pr.store.GetProductByID(id)
+}
+
+func (pr *productRepository) GetGroupOfProductsByIds(ids []int) ([]domain.Product, error) {
+
+	return pr.store.GetGroupOfProductsByIds(ids)
 }
 
 func (pr *productRepository) CreateProduct(product domain.Product) error {

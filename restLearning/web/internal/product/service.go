@@ -14,6 +14,7 @@ type ProductService interface {
 	UpdateProduct(id int, product domain.Product) error
 	PatchProduct(id int, product domain.ProductRequestDto) error
 	DeleteProduct(id int) error
+	GetConsumerPrice(ids []int) ([]domain.ConsumerPrice, error)
 }
 
 // productService is a concrete implementation of ProductService
@@ -57,6 +58,27 @@ func (ps *productService) SearchProduct(priceGt float64) ([]domain.Product, erro
 	}
 
 	return filteredProducts, nil
+}
+
+func (ps *productService) GetConsumerPrice(ids []int) ([]domain.ConsumerPrice, error) {
+	var consumerPrices []domain.ConsumerPrice
+	var total_price float64
+	products, err := ps.repository.GetGroupOfProductsByIds(ids)
+
+	if err != nil {
+		return nil, fmt.Errorf("error getting all  products: %w", err)
+	}
+
+	for _, product := range products {
+		total_price += product.Price
+	}
+
+	consumerPrices = append(consumerPrices, domain.ConsumerPrice{
+		Products:   products,
+		TotalPrice: total_price,
+	})
+
+	return consumerPrices, nil
 }
 
 func (ps *productService) CreateProduct(product domain.Product) error {

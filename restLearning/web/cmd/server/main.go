@@ -54,6 +54,8 @@ func startServer() *chi.Mux {
 
 			prodRouter.Get("/search", prodHandler.SearchProduct)
 
+			prodRouter.Get("/consumer-price", prodHandler.GetConsumerPrice)
+
 			prodRouter.Post("/", prodHandler.CreateProduct)
 
 			prodRouter.Put("/{id}", prodHandler.UpdateProduct)
