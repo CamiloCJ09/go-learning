@@ -4,8 +4,10 @@ import (
 	"app/internal/service"
 	"app/pkg/models"
 	"net/http"
+	"strconv"
 
 	"github.com/bootcamp-go/web/response"
+	"github.com/go-chi/chi/v5"
 )
 
 // NewVehicleDefault is a function that returns a new instance of VehicleDefault
@@ -58,4 +60,28 @@ func (h *VehicleDefault) GetAll() http.HandlerFunc {
 			"data":    data,
 		})
 	}
+}
+
+func (h *VehicleDefault) GetByColorAndYear(w http.ResponseWriter, r *http.Request) {
+
+	color := chi.URLParam(r, "color")
+	year := chi.URLParam(r, "year")
+	yearInt, err := strconv.Atoi(year)
+
+	if err != nil {
+		response.JSON(w, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	data, err := h.sv.FindByColorAndYear(color, yearInt)
+
+	if err != nil {
+		response.JSON(w, http.StatusNotFound, err.Error())
+		return
+	}
+
+	response.JSON(w, http.StatusOK, map[string]any{
+		"message": "success",
+		"data":    data,
+	})
 }

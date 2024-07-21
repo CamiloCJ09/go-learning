@@ -62,3 +62,29 @@ type Vehicle struct {
 	// VehicleAttribue is the attributes of a vehicle
 	VehicleAttributes
 }
+
+func CreateVehicle(doc VehicleDoc) Vehicle {
+
+	vehicle := Vehicle{
+		Id: doc.ID,
+		VehicleAttributes: VehicleAttributes{
+			Brand:           doc.Brand,
+			Model:           doc.Model,
+			Registration:    doc.Registration,
+			Color:           doc.Color,
+			FabricationYear: doc.FabricationYear,
+			Capacity:        doc.Capacity,
+			MaxSpeed:        doc.MaxSpeed,
+			FuelType:        doc.FuelType,
+			Transmission:    doc.Transmission,
+			Weight:          doc.Weight,
+			Dimensions: Dimensions{
+				Height: doc.Height,
+				Length: doc.Length,
+				Width:  doc.Width,
+			},
+		},
+	}
+
+	return vehicle
+}

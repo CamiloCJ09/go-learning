@@ -21,3 +21,13 @@ func (s *VehicleDefault) FindAll() (v map[int]models.Vehicle, err error) {
 	v, err = s.rp.FindAll()
 	return
 }
+
+func (s *VehicleDefault) Create(v models.Vehicle) (id int, err error) {
+
+	return
+}
+
+func (s *VehicleDefault) FindByColorAndYear(color string, year int) (v map[int]models.Vehicle, err error) {
+	v, err = s.rp.FindByColorAndYear(color, year)
+	return
+}
