@@ -44,7 +44,7 @@ type VehicleDoc struct {
 	Registration    string  `json:"registration"`
 	Color           string  `json:"color"`
 	FabricationYear int     `json:"year"`
-	Capacity        int     `json:"passengers"`
+	Capacity        int     `json:"t"`
 	MaxSpeed        float64 `json:"max_speed"`
 	FuelType        string  `json:"fuel_type"`
 	Transmission    string  `json:"transmission"`

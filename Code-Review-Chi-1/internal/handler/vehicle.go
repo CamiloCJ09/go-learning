@@ -3,6 +3,7 @@ package handler
 import (
 	"app/internal/service"
 	"app/pkg/models"
+	"encoding/json"
 	"net/http"
 	"strconv"
 
@@ -60,6 +61,26 @@ func (h *VehicleDefault) GetAll() http.HandlerFunc {
 			"data":    data,
 		})
 	}
+}
+
+func (h *VehicleDefault) CreateVehicle(w http.ResponseWriter, r *http.Request) {
+
+	var vehicle models.VehicleDoc
+
+	err := json.NewDecoder(r.Body).Decode(&vehicle)
+
+	if err != nil {
+		response.JSON(w, http.StatusBadRequest, err.Error())
+	}
+
+	data, err := h.sv.Create(vehicle)
+
+	if err != nil {
+		response.JSON(w, http.StatusBadRequest, err.Error())
+	}
+
+	response.JSON(w, http.StatusCreated, data)
+
 }
 
 func (h *VehicleDefault) GetByColorAndYear(w http.ResponseWriter, r *http.Request) {

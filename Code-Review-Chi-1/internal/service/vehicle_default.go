@@ -3,6 +3,7 @@ package service
 import (
 	"app/internal/repository"
 	"app/pkg/models"
+	"errors"
 )
 
 // NewVehicleDefault is a function that returns a new instance of VehicleDefault
@@ -22,7 +23,13 @@ func (s *VehicleDefault) FindAll() (v map[int]models.Vehicle, err error) {
 	return
 }
 
-func (s *VehicleDefault) Create(v models.Vehicle) (id int, err error) {
+func (s *VehicleDefault) Create(v models.VehicleDoc) (vr models.Vehicle, err error) {
+
+	vr, err = s.rp.Create(v)
+
+	if err != nil {
+		return models.Vehicle{}, errors.New("user not created")
+	}
 
 	return
 }

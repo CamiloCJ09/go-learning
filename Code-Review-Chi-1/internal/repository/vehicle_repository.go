@@ -8,7 +8,7 @@ type VehicleRepository interface {
 	FindAll() (v map[int]models.Vehicle, err error)
 
 	// Create a new vehicle
-	Create(v models.VehicleDoc) (int, error)
+	Create(v models.VehicleDoc) (models.Vehicle, error)
 
 	//Find By color And Year
 	FindByColorAndYear(color string, year int) (v map[int]models.Vehicle, err error)

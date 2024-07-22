@@ -34,17 +34,17 @@ func (r *VehicleMap) FindAll() (v map[int]models.Vehicle, err error) {
 }
 
 // Create a new vehicle
-func (r *VehicleMap) Create(v models.VehicleDoc) (int, error) {
+func (r *VehicleMap) Create(v models.VehicleDoc) (models.Vehicle, error) {
 
 	if validateIdDontExists(v.ID, r.db) {
-		return 0, errors.New("id already exists")
+		return models.Vehicle{}, errors.New("id already exists")
 	}
 
 	vehicle := models.CreateVehicle(v)
 
 	r.db[v.ID] = vehicle
 
-	return vehicle.Id, nil
+	return vehicle, nil
 }
 
 func validateIdDontExists(id int, db map[int]models.Vehicle) bool {
